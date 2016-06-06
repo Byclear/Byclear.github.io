@@ -1,0 +1,21 @@
+@charset "utf-8";
+body, div, dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6, pre, code,
+form, fieldset, legend, input, button,
+textarea, p, blockquote, th, td img{
+	margin: 0;
+	padding: 0;
+}
+body{font: 12px/150% Arial,Verdana,"宋体";
+color: #666;}
+a{color:#666;text-decoration:none;text-align: center;}
+a:hover{color:red;text-decoration:underline;color:#e4393c;}
+ol ul{list-style:none;}
+.clr {
+    display: block;
+    overflow: hidden;
+    clear: both;
+    height: 0px;
+    line-height: 0;
+    font-size: 0px;
+}
