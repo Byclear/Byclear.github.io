@@ -30,7 +30,10 @@ function fly() {
         }
         speed *= 0.98;
         var curL = _this.offsetLeft + speed;
-        if (curL <= _this.minl)="" {="" curl="_this.minL;" speed="" *="-1;" }="" else="" if="" (curl="">= _this.maxL) {
+        if (curL <= _this.minL) {
+            curL = _this.minL;
+            speed *= -1;
+        } else if (curL >= _this.maxL) {
             curL = _this.maxL;
             speed *= -1;
         }
@@ -65,4 +68,3 @@ function drop() {
         _this.style.top = curT + "px";
     }, 15);
 }
-</=>
