@@ -33,7 +33,7 @@
     "praise" : "praise count"
 }
 *************************************************************/
-var jsonData = [{
+var data = [{
     "id": "001",
     "nickName": "前端攻城狮",
     "userFace": "./images/user-face/user1.jpg",

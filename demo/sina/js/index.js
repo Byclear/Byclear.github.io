@@ -303,24 +303,31 @@ utils.on(topicBox, "click", function(ev) {
  * 绑定微博数据和发微博
  */
 
-function bindData(resData) {
-    data = resData;
-    var DOMFrg = document.createDocumentFragment();
+// function bindData(resData) {
+//     data = resData;
+//     var DOMFrg = document.createDocumentFragment();
+//     for (var i = 0, len = data.length; i < len; i++) {
+//         DOMFrg.appendChild(loadBlog(data[i], data));
+//     }
+//     container.appendChild(DOMFrg);
+//     refreshCheckbox();
+// }
+
+// var data = null;
+// ajax({
+//     url: "./js/jsonData.json",
+//     type: "GET",
+//     ansync: true,
+//     success: bindData
+// });
+
+var DOMFrg = document.createDocumentFragment();
     for (var i = 0, len = data.length; i < len; i++) {
         DOMFrg.appendChild(loadBlog(data[i], data));
     }
     container.appendChild(DOMFrg);
     refreshCheckbox();
-}
-
-var data = null;
-ajax({
-    url: "./js/jsonData.json",
-    type: "GET",
-    ansync: true,
-    success: bindData
-});
-
+    
 /*
  *主页发微博监听输入框事件
  */
