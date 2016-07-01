@@ -103,5 +103,5 @@ var data = [{
     },
     "isForward": 1,
     "forwardFrom": "002",
-    // "praise" :""
+    "praise" :""
 }]

@@ -322,12 +322,12 @@ utils.on(topicBox, "click", function(ev) {
 // });
 
 var DOMFrg = document.createDocumentFragment();
-    for (var i = 0, len = data.length; i < len; i++) {
-        DOMFrg.appendChild(loadBlog(data[i], data));
-    }
-    container.appendChild(DOMFrg);
-    refreshCheckbox();
-    
+for (var i = 0, len = data.length; i < len; i++) {
+    DOMFrg.appendChild(loadBlog(data[i], data));
+}
+container.appendChild(DOMFrg);
+refreshCheckbox();
+
 /*
  *主页发微博监听输入框事件
  */
