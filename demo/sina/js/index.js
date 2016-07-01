@@ -210,7 +210,7 @@ utils.on(document, "click", function(ev) {
         var result = formartText(curTextarea.value),
             curList = utils.getByClass(template, "wb-comment-list")[0].cloneNode(true),
             oDate = new Date(),
-            oMonth = (oDate.getMonth() + 1) < 10 ? '0' + oDate.getMonth() + 1 : oDate.getMonth(),
+            oMonth = (oDate.getMonth() + 1) < 10 ? '0' + (oDate.getMonth() + 1) : oDate.getMonth(),
             oDay = oDate.getDate() < 10 ? '0' + oDate.getDate() : oDate.getDate(),
             oHour = oDate.getHours() < 10 ? '0' + oDate.getHours() : oDate.getHours(),
             oMinute = oDate.getMinutes() < 10 ? '0' + oDate.getMinutes() : oDate.getMinutes(),
@@ -405,7 +405,7 @@ utils.on(rlsSubmitBtn, "click", function(ev) {
     utils.getByClass(curWrap, "host-user-face")[0].getElementsByTagName("img")[0].src = "./images/user-face/user1.jpg";
     utils.getByClass(curWrap, "host-user-face")[0].getElementsByTagName("img")[0].setAttribute("data-img", "./images/user-face/user1.jpg");
     var oDate = new Date(),
-        oMonth = (oDate.getMonth() + 1) < 10 ? '0' + oDate.getMonth() + 1 : oDate.getMonth(),
+        oMonth = (oDate.getMonth() + 1) < 10 ? '0' + (oDate.getMonth() + 1) : oDate.getMonth(),
         oDay = oDate.getDate() < 10 ? '0' + oDate.getDate() : oDate.getDate(),
         oHour = oDate.getHours() < 10 ? '0' + oDate.getHours() : oDate.getHours(),
         oMinute = oDate.getMinutes() < 10 ? '0' + oDate.getMinutes() : oDate.getMinutes(),
