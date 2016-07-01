@@ -38,7 +38,7 @@ var data = [{
     "nickName": "前端攻城狮",
     "userFace": "./images/user-face/user1.jpg",
     "releaseTime": "3月26日 01:37",
-    "text": "<a href="javascript:void(0)" target="_blank" rel="external">@W3CPlus</a><a href="javascript:void(0)" target="_blank" rel="external">@前端攻城狮</a>【提高Web页面性能的技巧】现在动辄几兆大小的页面加载量，让性能优化成了不可避免的热门话题。WEB 应用越流畅，用户体验就会越好，继而带来更多的访问量。网页链接（来自： <a href="javascript:void(0)" target="_blank" rel="external">W3CPlus</a>）",
+    "text": "<a>@W3CPlus</a><a>@前端攻城狮</a>【提高Web页面性能的技巧】现在动辄几兆大小的页面加载量，让性能优化成了不可避免的热门话题。WEB 应用越流畅，用户体验就会越好，继而带来更多的访问量。网页链接（来自： <a>W3CPlus</a>）",
     "img": ["./images/feedimg/feedimg1.jpg"],
     "comment": {
         "commentCount": 0,
