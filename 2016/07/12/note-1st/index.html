@@ -17,28 +17,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="声明和定义的概念
-声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   
-定义：给之前声明的这个名字赋值；eg:var a=2;  
-
-注：对带var和带function的声明和定义是不同的  带var：在预解释阶段，只声明，不定义  带function：在预解释阶段，声明+定义">
+    <meta name="description" content="关于JS中的预解释、作用域及this">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="JS中的预解释、作用域及this">
 <meta property="og:url" content="http://wlqing.com/2016/07/12/note-1st/index.html">
 <meta property="og:site_name" content="Safilo's Blog">
-<meta property="og:description" content="声明和定义的概念
-声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   
-定义：给之前声明的这个名字赋值；eg:var a=2;  
-
-注：对带var和带function的声明和定义是不同的  带var：在预解释阶段，只声明，不定义  带function：在预解释阶段，声明+定义">
-<meta property="og:updated_time" content="2016-07-15T10:21:44.185Z">
+<meta property="og:description" content="关于JS中的预解释、作用域及this">
+<meta property="og:updated_time" content="2016-07-15T10:51:49.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中的预解释、作用域及this">
-<meta name="twitter:description" content="声明和定义的概念
-声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   
-定义：给之前声明的这个名字赋值；eg:var a=2;  
-
-注：对带var和带function的声明和定义是不同的  带var：在预解释阶段，只声明，不定义  带function：在预解释阶段，声明+定义">
+<meta name="twitter:description" content="关于JS中的预解释、作用域及this">
 <meta name="twitter:creator" content="@odaobui">
     
     
@@ -238,20 +226,49 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <h3 id="声明和定义的概念"><a href="#声明和定义的概念" class="headerlink" title="声明和定义的概念"></a>声明和定义的概念</h3><ul>
+            <p>关于JS中的预解释、作用域及this</p>
+<a id="more"></a>
+<h3 id="声明和定义的概念"><a href="#声明和定义的概念" class="headerlink" title="声明和定义的概念"></a>声明和定义的概念</h3><ul>
 <li>声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   </li>
-<li><p>定义：给之前声明的这个名字赋值；eg:var a=2;  </p>
-<blockquote>
-<p>注：对带var和带function的声明和定义是不同的<br>  带var：在预解释阶段，只声明，不定义<br>  带function：在预解释阶段，声明+定义   </p>
-</blockquote>
-</li>
-</ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="作用域："><a href="#作用域：" class="headerlink" title="作用域："></a>作用域：</h3><ul>
-<li>全局作用域：<br>在浏览器打开HTML页面的时候，会形成一个供JS执行的环境；在全局作用域环境下，里面所有的变量和函数，实际上就是window的属性和方法  </li>
-<li>私有作用域：<br>在函数被调用的时候，形成一个私有作用域；</li>
+<li>定义：给之前声明的这个名字赋值；eg:var a=2;</li>
 </ul>
 <hr>
-<h3 id="预解释："><a href="#预解释：" class="headerlink" title="预解释："></a>预解释：</h3><p>在当前作用域下，JS代码执行之前，浏览器会把带var和带function进行提前声明或者定<br>域：空间或者范围</p>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
+<li><p>全局作用域：  </p>
+<p>  在浏览器打开HTML页面的时候，会形成一个供JS执行的环境；在全局作用域环境下，里面所有的变量和函数，实际上就是window的属性和方法  </p>
+</li>
+<li><p>私有作用域：  </p>
+<p>  在函数被调用的时候，形成一个私有作用域；</p>
+</li>
+</ul>
+<hr>
+<h3 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h3><p>在函数执行的时候，会形成一个私有作用域A，私有作用域中找一个变量,这个变量是否在作用域A中定义过：  </p>
+<ol>
+<li>如果变量在A中定义过，那这个A中所有的此变量，都是私有变量；   </li>
+<li>如果变量没在A中定义过，就会往A的上级作用域进行查找，有的话就赋值，没有就继续往上找,找到window都没有就会报错</li>
+</ol>
+<hr>
+<h3 id="预解释"><a href="#预解释" class="headerlink" title="预解释"></a>预解释</h3><p>在当前作用域下，JS代码执行之前，浏览器会把带var和带function进行提前声明或者定义  </p>
+<p><strong>带var和带function在预解释时的不同</strong>  </p>
+<ul>
+<li>带var：在预解释阶段，只声明，不定义  </li>
+<li>带function：在预解释阶段，声明+定义  </li>
+</ul>
+<p><strong>带var和不带var的区别</strong>   </p>
+<ul>
+<li><p>带var</p>
+<ul>
+<li>会预解释   </li>
+<li>如果带var在全局环境下，它是window的全局属性</li>
+</ul>
+</li>
+<li><p>不带var</p>
+<ul>
+<li>不会预解释  </li>
+<li>首先会往上找；如果是赋值的话，找到window还没有，就变成window上的全局属性</li>
+</ul>
+</li>
+</ul>
 <p><strong>预解释是一种无节操的机制</strong>  </p>
 <ol>
 <li><p>变量声明，只走”=”的左边；声明，不定义,如果把函数赋值给变量，按变量来声明  </p>
@@ -265,7 +282,7 @@
 <p>注意：不要在if语句中写函数，因为各大浏览器对他的预解释不一样，如执行上面代码，在Chrome、Firefox、IE Edge、Opera中输出 “偶数”，在IE除了Edge外其他版本、Safari中输出 “奇数”  </p>
 <p>还有比较坑爹的地方就是，各大浏览器对于if语句中声明定义的函数，在Chrome、Firefox、Opera、IE的Edge中会进行声明但不进行定义（即不赋值，这点和基本数据类型的预解释很像），此时在if语句前访问虽然不会报错，但是值为undefined;而在IE 10及之前版本和Safari中预解释时声明和定义都完成了，代码如下：</p>
 </blockquote>
-  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line">g = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(g); <span class="comment">// 高版本Chrome、Firefox、Opera下输出undefined,</span></span><br><span class="line">    从而执行<span class="keyword">if</span>条件判断时报错，而IE除了Edge和Safari输出<span class="keyword">if</span>中定义的函数g</span><br><span class="line">    代码字符串,执行<span class="keyword">if</span>条件判断不会报错</span><br><span class="line">    <span class="keyword">if</span> (g() &amp;&amp; [] == ![]) &#123; <span class="comment">//高版本Chrome、Firefox、Opera执行if条件</span></span><br><span class="line">        判断时报错，而IE除了Edge和Safari不会报错</span><br><span class="line">        f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">alert(f());</span><br><span class="line">alert(g());</span><br></pre></td></tr></table></figure>
+  <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span></span><br><span class="line">&#125;;</span><br><span class="line">g = <span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">    console.log(g); /* 高版本Chrome、Firefox、Opera下输出undefined,</span><br><span class="line">                    从而执行<span class="keyword">if</span>条件判断时报错，而IE除了Edge和Safari输出<span class="keyword">if</span>中定义的函数g</span><br><span class="line">                    代码字符串,执行<span class="keyword">if</span>条件判断不会报错 */</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (g() &amp;&amp; [] == ![]) &#123; //高版本Chrome、Firefox、Opera执行<span class="keyword">if</span>条件</span><br><span class="line">        判断时报错，而IE除了Edge和Safari不会报错</span><br><span class="line">        f = <span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">alert(f());</span><br><span class="line">alert(g());</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释  </p>
  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line">    <span class="built_in">console</span>.log(fn); <span class="comment">// Uncaught ReferenceError: fn is not defined</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//some codes</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">12</span>;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
@@ -275,35 +292,18 @@
 </li>
 </ol>
 <hr>
-<h3 id="函数定义和执行阶段："><a href="#函数定义和执行阶段：" class="headerlink" title="函数定义和执行阶段："></a>函数定义和执行阶段：</h3><p><strong>函数定义的3个阶段</strong></p>
+<h3 id="函数定义和执行阶段"><a href="#函数定义和执行阶段" class="headerlink" title="函数定义和执行阶段"></a>函数定义和执行阶段</h3><p><strong>函数定义的3个阶段</strong>  </p>
 <ol>
-<li>开辟一个堆内存空间，浏览器默认为其分配一个地址；eg:xxff00;   </li>
+<li>开辟一个堆内存空间，浏览器默认为其分配一个地址；eg:xxff00  </li>
 <li>把函数体中的JS代码做为字符串存放在这个堆内存空间中   </li>
 <li>把地址赋值给函数名  </li>
 </ol>
-<p><strong>函数执行的3个阶段</strong></p>
+<p><strong>函数执行的3个阶段</strong>  </p>
 <ol>
-<li>给形参赋值   </li>
+<li>给形参赋值  </li>
 <li>预解释   </li>
-<li>JS代码从上往下执行；</li>
+<li>JS代码从上往下执行  </li>
 </ol>
-<hr>
-<h3 id="作用域链："><a href="#作用域链：" class="headerlink" title="作用域链："></a>作用域链：</h3><p>在函数执行的时候，会形成一个私有作用域A，私有作用域中找一个变量,这个变量是否在作用域A中定义过：   </p>
-<ol>
-<li>如果变量在A中定义过，那这个A中所有的此变量，都是私有变量；   </li>
-<li>如果变量没在A中定义过，就会往A的上级作用域进行查找，有的话就赋值，没有就继续往上找，。。。找到window都没，报错！</li>
-</ol>
-<hr>
-<h3 id="带var和不带var的区别："><a href="#带var和不带var的区别：" class="headerlink" title="带var和不带var的区别："></a>带var和不带var的区别：</h3><p><strong>带var</strong>  </p>
-<ul>
-<li>会预解释   </li>
-<li>如果带var在全局环境下，它是window的全局属性；</li>
-</ul>
-<p><strong>不带var</strong></p>
-<ul>
-<li>不会预解释  </li>
-<li>首先会往上找；如果是赋值的话，找到window还没有，就变成window上的全局属性  </li>
-</ul>
 <hr>
 <h3 id="JS中的内存"><a href="#JS中的内存" class="headerlink" title="JS中的内存"></a>JS中的内存</h3><p><strong>按照功能的不同</strong></p>
 <ul>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wlqing.com/"/>
-  <updated>2016-07-15T10:21:44.185Z</updated>
+  <updated>2016-07-15T10:51:49.072Z</updated>
   <id>http://wlqing.com/</id>
   
   <author>
@@ -20,22 +20,51 @@
     <link href="http://wlqing.com/2016/07/12/note-1st/"/>
     <id>http://wlqing.com/2016/07/12/note-1st/</id>
     <published>2016-07-11T16:00:00.000Z</published>
-    <updated>2016-07-15T10:21:44.185Z</updated>
+    <updated>2016-07-15T10:51:49.072Z</updated>
     
-    <content type="html">&lt;h3 id=&quot;声明和定义的概念&quot;&gt;&lt;a href=&quot;#声明和定义的概念&quot; class=&quot;headerlink&quot; title=&quot;声明和定义的概念&quot;&gt;&lt;/a&gt;声明和定义的概念&lt;/h3&gt;&lt;ul&gt;
+    <content type="html">&lt;p&gt;关于JS中的预解释、作用域及this&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;声明和定义的概念&quot;&gt;&lt;a href=&quot;#声明和定义的概念&quot; class=&quot;headerlink&quot; title=&quot;声明和定义的概念&quot;&gt;&lt;/a&gt;声明和定义的概念&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;定义：给之前声明的这个名字赋值；eg:var a=2;  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;注：对带var和带function的声明和定义是不同的&lt;br&gt;  带var：在预解释阶段，只声明，不定义&lt;br&gt;  带function：在预解释阶段，声明+定义   &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id=&quot;作用域：&quot;&gt;&lt;a href=&quot;#作用域：&quot; class=&quot;headerlink&quot; title=&quot;作用域：&quot;&gt;&lt;/a&gt;作用域：&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;全局作用域：&lt;br&gt;在浏览器打开HTML页面的时候，会形成一个供JS执行的环境；在全局作用域环境下，里面所有的变量和函数，实际上就是window的属性和方法  &lt;/li&gt;
-&lt;li&gt;私有作用域：&lt;br&gt;在函数被调用的时候，形成一个私有作用域；&lt;/li&gt;
+&lt;li&gt;定义：给之前声明的这个名字赋值；eg:var a=2;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h3 id=&quot;预解释：&quot;&gt;&lt;a href=&quot;#预解释：&quot; class=&quot;headerlink&quot; title=&quot;预解释：&quot;&gt;&lt;/a&gt;预解释：&lt;/h3&gt;&lt;p&gt;在当前作用域下，JS代码执行之前，浏览器会把带var和带function进行提前声明或者定&lt;br&gt;域：空间或者范围&lt;/p&gt;
+&lt;h3 id=&quot;作用域&quot;&gt;&lt;a href=&quot;#作用域&quot; class=&quot;headerlink&quot; title=&quot;作用域&quot;&gt;&lt;/a&gt;作用域&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;全局作用域：  &lt;/p&gt;
+&lt;p&gt;  在浏览器打开HTML页面的时候，会形成一个供JS执行的环境；在全局作用域环境下，里面所有的变量和函数，实际上就是window的属性和方法  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;私有作用域：  &lt;/p&gt;
+&lt;p&gt;  在函数被调用的时候，形成一个私有作用域；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;作用域链&quot;&gt;&lt;a href=&quot;#作用域链&quot; class=&quot;headerlink&quot; title=&quot;作用域链&quot;&gt;&lt;/a&gt;作用域链&lt;/h3&gt;&lt;p&gt;在函数执行的时候，会形成一个私有作用域A，私有作用域中找一个变量,这个变量是否在作用域A中定义过：  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果变量在A中定义过，那这个A中所有的此变量，都是私有变量；   &lt;/li&gt;
+&lt;li&gt;如果变量没在A中定义过，就会往A的上级作用域进行查找，有的话就赋值，没有就继续往上找,找到window都没有就会报错&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;预解释&quot;&gt;&lt;a href=&quot;#预解释&quot; class=&quot;headerlink&quot; title=&quot;预解释&quot;&gt;&lt;/a&gt;预解释&lt;/h3&gt;&lt;p&gt;在当前作用域下，JS代码执行之前，浏览器会把带var和带function进行提前声明或者定义  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;带var和带function在预解释时的不同&lt;/strong&gt;  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;带var：在预解释阶段，只声明，不定义  &lt;/li&gt;
+&lt;li&gt;带function：在预解释阶段，声明+定义  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;带var和不带var的区别&lt;/strong&gt;   &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;带var&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;会预解释   &lt;/li&gt;
+&lt;li&gt;如果带var在全局环境下，它是window的全局属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;不带var&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不会预解释  &lt;/li&gt;
+&lt;li&gt;首先会往上找；如果是赋值的话，找到window还没有，就变成window上的全局属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;预解释是一种无节操的机制&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;变量声明，只走”=”的左边；声明，不定义,如果把函数赋值给变量，按变量来声明  &lt;/p&gt;
@@ -49,7 +78,7 @@
 &lt;p&gt;注意：不要在if语句中写函数，因为各大浏览器对他的预解释不一样，如执行上面代码，在Chrome、Firefox、IE Edge、Opera中输出 “偶数”，在IE除了Edge外其他版本、Safari中输出 “奇数”  &lt;/p&gt;
 &lt;p&gt;还有比较坑爹的地方就是，各大浏览器对于if语句中声明定义的函数，在Chrome、Firefox、Opera、IE的Edge中会进行声明但不进行定义（即不赋值，这点和基本数据类型的预解释很像），此时在if语句前访问虽然不会报错，但是值为undefined;而在IE 10及之前版本和Safari中预解释时声明和定义都完成了，代码如下：&lt;/p&gt;
 &lt;/blockquote&gt;
-  &lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;f = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;g = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(g); &lt;span class=&quot;comment&quot;&gt;// 高版本Chrome、Firefox、Opera下输出undefined,&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    从而执行&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;条件判断时报错，而IE除了Edge和Safari输出&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;中定义的函数g&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    代码字符串,执行&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;条件判断不会报错&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (g() &amp;amp;&amp;amp; [] == ![]) &amp;#123; &lt;span class=&quot;comment&quot;&gt;//高版本Chrome、Firefox、Opera执行if条件&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        判断时报错，而IE除了Edge和Safari不会报错&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        f = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;g&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alert(f());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alert(g());&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+  &lt;figure class=&quot;highlight lua&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;f = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;g = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    console.log(g); /* 高版本Chrome、Firefox、Opera下输出undefined,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    从而执行&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;条件判断时报错，而IE除了Edge和Safari输出&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;中定义的函数g&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    代码字符串,执行&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;条件判断不会报错 */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (g() &amp;amp;&amp;amp; [] == ![]) &amp;#123; //高版本Chrome、Firefox、Opera执行&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;条件&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        判断时报错，而IE除了Edge和Safari不会报错&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        f = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alert(f());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alert(g());&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释  &lt;/p&gt;
  &lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(a); &lt;span class=&quot;comment&quot;&gt;// undefined&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(fn); &lt;span class=&quot;comment&quot;&gt;// Uncaught ReferenceError: fn is not defined&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;fn&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;//some codes&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; a = &lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)();&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -59,35 +88,18 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h3 id=&quot;函数定义和执行阶段：&quot;&gt;&lt;a href=&quot;#函数定义和执行阶段：&quot; class=&quot;headerlink&quot; title=&quot;函数定义和执行阶段：&quot;&gt;&lt;/a&gt;函数定义和执行阶段：&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;函数定义的3个阶段&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;函数定义和执行阶段&quot;&gt;&lt;a href=&quot;#函数定义和执行阶段&quot; class=&quot;headerlink&quot; title=&quot;函数定义和执行阶段&quot;&gt;&lt;/a&gt;函数定义和执行阶段&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;函数定义的3个阶段&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;开辟一个堆内存空间，浏览器默认为其分配一个地址；eg:xxff00;   &lt;/li&gt;
+&lt;li&gt;开辟一个堆内存空间，浏览器默认为其分配一个地址；eg:xxff00  &lt;/li&gt;
 &lt;li&gt;把函数体中的JS代码做为字符串存放在这个堆内存空间中   &lt;/li&gt;
 &lt;li&gt;把地址赋值给函数名  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;函数执行的3个阶段&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;函数执行的3个阶段&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;给形参赋值   &lt;/li&gt;
+&lt;li&gt;给形参赋值  &lt;/li&gt;
 &lt;li&gt;预解释   &lt;/li&gt;
-&lt;li&gt;JS代码从上往下执行；&lt;/li&gt;
+&lt;li&gt;JS代码从上往下执行  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;作用域链：&quot;&gt;&lt;a href=&quot;#作用域链：&quot; class=&quot;headerlink&quot; title=&quot;作用域链：&quot;&gt;&lt;/a&gt;作用域链：&lt;/h3&gt;&lt;p&gt;在函数执行的时候，会形成一个私有作用域A，私有作用域中找一个变量,这个变量是否在作用域A中定义过：   &lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;如果变量在A中定义过，那这个A中所有的此变量，都是私有变量；   &lt;/li&gt;
-&lt;li&gt;如果变量没在A中定义过，就会往A的上级作用域进行查找，有的话就赋值，没有就继续往上找，。。。找到window都没，报错！&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;带var和不带var的区别：&quot;&gt;&lt;a href=&quot;#带var和不带var的区别：&quot; class=&quot;headerlink&quot; title=&quot;带var和不带var的区别：&quot;&gt;&lt;/a&gt;带var和不带var的区别：&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;带var&lt;/strong&gt;  &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;会预解释   &lt;/li&gt;
-&lt;li&gt;如果带var在全局环境下，它是window的全局属性；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;不带var&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;不会预解释  &lt;/li&gt;
-&lt;li&gt;首先会往上找；如果是赋值的话，找到window还没有，就变成window上的全局属性  &lt;/li&gt;
-&lt;/ul&gt;
 &lt;hr&gt;
 &lt;h3 id=&quot;JS中的内存&quot;&gt;&lt;a href=&quot;#JS中的内存&quot; class=&quot;headerlink&quot; title=&quot;JS中的内存&quot;&gt;&lt;/a&gt;JS中的内存&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;按照功能的不同&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -167,15 +179,7 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;声明和定义的概念&quot;&gt;&lt;a href=&quot;#声明和定义的概念&quot; class=&quot;headerlink&quot; title=&quot;声明和定义的概念&quot;&gt;&lt;/a&gt;声明和定义的概念&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;定义：给之前声明的这个名字赋值；eg:var a=2;  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;注：对带var和带function的声明和定义是不同的&lt;br&gt;  带var：在预解释阶段，只声明，不定义&lt;br&gt;  带function：在预解释阶段，声明+定义   &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+      &lt;p&gt;关于JS中的预解释、作用域及this&lt;/p&gt;
     
     </summary>
     
