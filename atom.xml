@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wlqing.com/"/>
-  <updated>2016-07-15T10:13:18.776Z</updated>
+  <updated>2016-07-15T10:14:28.520Z</updated>
   <id>http://wlqing.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>JS中的预解释、作用域及this的总结</title>
+    <title>JS中的预解释、作用域及this</title>
     <link href="http://wlqing.com/2016/07/12/note-1st/"/>
     <id>http://wlqing.com/2016/07/12/note-1st/</id>
     <published>2016-07-11T16:00:00.000Z</published>
-    <updated>2016-07-15T10:13:18.776Z</updated>
+    <updated>2016-07-15T10:14:28.520Z</updated>
     
     <content type="html">&lt;h3 id=&quot;声明和定义的概念&quot;&gt;&lt;a href=&quot;#声明和定义的概念&quot; class=&quot;headerlink&quot; title=&quot;声明和定义的概念&quot;&gt;&lt;/a&gt;声明和定义的概念&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   &lt;/li&gt;
