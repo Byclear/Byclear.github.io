@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wlqing.com/"/>
-  <updated>2016-07-15T10:14:28.520Z</updated>
+  <updated>2016-07-15T10:19:12.533Z</updated>
   <id>http://wlqing.com/</id>
   
   <author>
@@ -20,16 +20,14 @@
     <link href="http://wlqing.com/2016/07/12/note-1st/"/>
     <id>http://wlqing.com/2016/07/12/note-1st/</id>
     <published>2016-07-11T16:00:00.000Z</published>
-    <updated>2016-07-15T10:14:28.520Z</updated>
+    <updated>2016-07-15T10:19:12.533Z</updated>
     
     <content type="html">&lt;h3 id=&quot;声明和定义的概念&quot;&gt;&lt;a href=&quot;#声明和定义的概念&quot; class=&quot;headerlink&quot; title=&quot;声明和定义的概念&quot;&gt;&lt;/a&gt;声明和定义的概念&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;定义：给之前声明的这个名字赋值；eg:var a=2;  &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：对带var和带function的声明和定义是不同的&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;__带var：在预解释阶段，只声明，不定义__  
-__带function：在预解释阶段，声明+定义__   
-&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;p&gt; 注：对带var和带function的声明和定义是不同的&lt;br&gt; 带var：在预解释阶段，只声明，不定义&lt;br&gt; 带function：在预解释阶段，声明+定义   &lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -175,10 +173,8 @@ __带function：在预解释阶段，声明+定义__
 &lt;li&gt;声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;   &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;定义：给之前声明的这个名字赋值；eg:var a=2;  &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：对带var和带function的声明和定义是不同的&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;__带var：在预解释阶段，只声明，不定义__  
-__带function：在预解释阶段，声明+定义__   
-&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;p&gt; 注：对带var和带function的声明和定义是不同的&lt;br&gt; 带var：在预解释阶段，只声明，不定义&lt;br&gt; 带function：在预解释阶段，声明+定义   &lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
     
