@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Safilo&#39;s Blog">
+    <title>JS中的预解释、作用域及this的总结 - Safilo&#39;s Blog</title>
+    <meta name="author" content="safilo">
+    
+        <meta name="keywords" content="wlqing,wlqing.com,odaobui,hexo,javascript,">
+    
+    
+        <link rel="icon" href="http://wlqing.com/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="声明和定义的概念
+声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;定义：给之前声明的这个名字赋值；eg:var a=2;注：对带var和带function的声明和定义是不同的：
+带var：在预解释阶段，只声明，不定义带function：在预解释阶段，声明+定义">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JS中的预解释、作用域及this的总结">
+<meta property="og:url" content="http://wlqing.com/2016/07/12/note-1st/index.html">
+<meta property="og:site_name" content="Safilo's Blog">
+<meta property="og:description" content="声明和定义的概念
+声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;定义：给之前声明的这个名字赋值；eg:var a=2;注：对带var和带function的声明和定义是不同的：
+带var：在预解释阶段，只声明，不定义带function：在预解释阶段，声明+定义">
+<meta property="og:updated_time" content="2016-07-15T08:55:26.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS中的预解释、作用域及this的总结">
+<meta name="twitter:description" content="声明和定义的概念
+声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;定义：给之前声明的这个名字赋值；eg:var a=2;注：对带var和带function的声明和定义是不同的：
+带var：在预解释阶段，只声明，不定义带function：在预解释阶段，声明+定义">
+<meta name="twitter:creator" content="@odaobui">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://wlqing.com/assets/images/author.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Safilo&#39;s Blog</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon "
+                href="/all-archives">
+        
+        
+            <i class="fa fa-lg fa-file-text-o"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">safilo</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button" title=首页>
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=分类>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=标签>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=归档>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=搜索>
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=关于>
+                
+                    <a  class="sidebar-button-link "
+                         href="/about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=demo>
+                
+                    <a  class="sidebar-button-link "
+                         href="/demos"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-th-large"></i>
+                    <span class="sidebar-button-desc">demo</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=GitHub>
+                
+                    <a  class="sidebar-button-link " href="https://github.com/safilo" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button" title=RSS>
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            JS中的预解释、作用域及this的总结
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Jul 12 2016 00:00:00 GMT+0800">
+	
+		    7月 12, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h3 id="声明和定义的概念"><a href="#声明和定义的概念" class="headerlink" title="声明和定义的概念"></a>声明和定义的概念</h3><hr>
+<h4 id="声明：告诉浏览器有这么一个名字；但是不知道值；-eg-var-a"><a href="#声明：告诉浏览器有这么一个名字；但是不知道值；-eg-var-a" class="headerlink" title="声明：告诉浏览器有这么一个名字；但是不知道值； eg:var a;"></a>声明：<code>告诉浏览器有这么一个名字；但是不知道值； eg:var a;</code></h4><h4 id="定义：给之前声明的这个名字赋值；eg-var-a-2"><a href="#定义：给之前声明的这个名字赋值；eg-var-a-2" class="headerlink" title="定义：给之前声明的这个名字赋值；eg:var a=2;"></a>定义：<code>给之前声明的这个名字赋值；eg:var a=2;</code></h4><h4 id="注：对带var和带function的声明和定义是不同的："><a href="#注：对带var和带function的声明和定义是不同的：" class="headerlink" title="注：对带var和带function的声明和定义是不同的："></a>注：对带var和带function的声明和定义是不同的：</h4><blockquote>
+<p><strong>带var：在预解释阶段，只声明，不定义</strong><br><strong>带function：在预解释阶段，声明+定义</strong>   </p>
+</blockquote>
+<a id="more"></a>
+<h3 id="作用域："><a href="#作用域：" class="headerlink" title="作用域："></a>作用域：</h3><hr>
+<h4 id="全局作用域："><a href="#全局作用域：" class="headerlink" title="全局作用域："></a>全局作用域：</h4><p>在浏览器打开HTML页面的时候，会形成一个供JS执行的环境；在全局作用域环境下，里面所有的变量和函数，实际上就是window的属性和方法  </p>
+<h4 id="私有作用域："><a href="#私有作用域：" class="headerlink" title="私有作用域："></a>私有作用域：</h4><p>在函数被调用的时候，形成一个私有作用域；</p>
+<h3 id="预解释："><a href="#预解释：" class="headerlink" title="预解释："></a>预解释：</h3><hr>
+<p>在当前作用域下，JS代码执行之前，浏览器会把带var和带function进行提前声明或者定<br>域：空间或者范围</p>
+<h4 id="关于函数的无节操："><a href="#关于函数的无节操：" class="headerlink" title="关于函数的无节操："></a>关于函数的无节操：</h4><h5 id="1-变量声明，只走”-”的左边；声明，不定义-如果把函数赋值给变量，按变量来声明"><a href="#1-变量声明，只走”-”的左边；声明，不定义-如果把函数赋值给变量，按变量来声明" class="headerlink" title="1.变量声明，只走”=”的左边；声明，不定义,如果把函数赋值给变量，按变量来声明"></a>1.变量声明，只走”=”的左边；声明，不定义,如果把函数赋值给变量，按变量来声明</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">//undefined</span></span><br><span class="line"><span class="keyword">var</span> a=<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="number">2</span>)&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="2-自执行函数不预解释，只有执行到他的时候，声明-定义-执行同步完成"><a href="#2-自执行函数不预解释，只有执行到他的时候，声明-定义-执行同步完成" class="headerlink" title="2.自执行函数不预解释，只有执行到他的时候，声明+定义+执行同步完成"></a>2.自执行函数不预解释，只有执行到他的时候，声明+定义+执行同步完成</h5><h5 id="3-不管if条件是否成立，都走预解释"><a href="#3-不管if条件是否成立，都走预解释" class="headerlink" title="3.不管if条件是否成立，都走预解释"></a>3.不管if条件是否成立，都走预解释</h5><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> n=<span class="number">12</span>;</span><br><span class="line"><span class="keyword">if</span>(n%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sum</span><span class="params">()</span></span>&#123;</span><br><span class="line">        alert(<span class="string">'偶数'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sum</span><span class="params">()</span></span>&#123;</span><br><span class="line">        alert(<span class="string">'奇数'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">sum()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：不要在if语句中写函数，因为各大浏览器对他的预解释不一样，如执行上面代码，在Chrome、Firefox、IE Edge、Opera中输出 “偶数”，在IE除了Edge外其他版本、Safari中输出 “奇数”  </p>
+<p>还有比较坑爹的地方就是，各大浏览器对于if语句中声明定义的函数，在Chrome、Firefox、Opera、IE的Edge中会进行声明但不进行定义（即不赋值，这点和基本数据类型的预解释很像），此时在if语句前访问虽然不会报错，但是值为undefined;而在IE 10及之前版本和Safari中预解释时声明和定义都完成了，代码如下：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line">g = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(g); <span class="comment">// 高版本Chrome、Firefox、Opera下输出undefined,</span></span><br><span class="line">    从而执行<span class="keyword">if</span>条件判断时报错，而IE除了Edge和Safari输出<span class="keyword">if</span>中定义的函数g</span><br><span class="line">    代码字符串,执行<span class="keyword">if</span>条件判断不会报错</span><br><span class="line">    <span class="keyword">if</span> (g() &amp;&amp; [] == ![]) &#123; <span class="comment">//高版本Chrome、Firefox、Opera执行if条件</span></span><br><span class="line">        判断时报错，而IE除了Edge和Safari不会报错</span><br><span class="line">        f = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">alert(f());</span><br><span class="line">alert(g());</span><br></pre></td></tr></table></figure>
+<h5 id="4-如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释"><a href="#4-如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释" class="headerlink" title="4.如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释"></a>4.如果函数有返回值return：return后面的值不进行预解释；return下面的代码不执行，但是要进行预解释</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line">    <span class="built_in">console</span>.log(fn); <span class="comment">// Uncaught ReferenceError: fn is not defined</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//some codes</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">12</span>;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<h5 id="5-在变量名相同的情况下，不重复声明，但会重新赋值"><a href="#5-在变量名相同的情况下，不重复声明，但会重新赋值" class="headerlink" title="5.在变量名相同的情况下，不重复声明，但会重新赋值"></a>5.在变量名相同的情况下，不重复声明，但会重新赋值</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> a); <span class="comment">// function</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">12</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//some codes</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> a); <span class="comment">// number</span></span><br><span class="line"><span class="keyword">var</span> a = &#123;&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> a); <span class="comment">// object</span></span><br></pre></td></tr></table></figure>
+<h3 id="函数定义和执行阶段："><a href="#函数定义和执行阶段：" class="headerlink" title="函数定义和执行阶段："></a>函数定义和执行阶段：</h3><hr>
+<h4 id="1）函数定义3阶段："><a href="#1）函数定义3阶段：" class="headerlink" title="1）函数定义3阶段："></a>1）函数定义3阶段：</h4><ol>
+<li>开辟一个堆内存空间，浏览器默认为其分配一个地址；eg:xxff00;   </li>
+<li>把函数体中的JS代码做为字符串存放在这个堆内存空间中   </li>
+<li>把地址赋值给函数名  </li>
+</ol>
+<h4 id="2）函数执行3阶段："><a href="#2）函数执行3阶段：" class="headerlink" title="2）函数执行3阶段："></a>2）函数执行3阶段：</h4><ol>
+<li>给形参赋值   </li>
+<li>预解释   </li>
+<li>JS代码从上往下执行；</li>
+</ol>
+<h3 id="作用域链："><a href="#作用域链：" class="headerlink" title="作用域链："></a>作用域链：</h3><hr>
+<p>在函数执行的时候，会形成一个私有作用域A，私有作用域中找一个变量,这个变量是否在作用域A中定义过：   </p>
+<ol>
+<li>如果变量在A中定义过，那这个A中所有的此变量，都是私有变量；   </li>
+<li>如果变量没在A中定义过，就会往A的上级作用域进行查找，有的话就赋值，没有就继续往上找，。。。找到window都没，报错！</li>
+</ol>
+<h3 id="带var和不带var的区别："><a href="#带var和不带var的区别：" class="headerlink" title="带var和不带var的区别："></a>带var和不带var的区别：</h3><hr>
+<p>1). 带var：  </p>
+<ul>
+<li>会预解释   </li>
+<li>如果带var在全局环境下，它是window的全局属性；</li>
+</ul>
+<p>2). 不带var:  </p>
+<ul>
+<li>不会预解释  </li>
+<li>首先会往上找；如果是赋值的话，找到window还没有，就变成window上的全局属性  </li>
+</ul>
+<h3 id="JS中的内存"><a href="#JS中的内存" class="headerlink" title="JS中的内存"></a>JS中的内存</h3><hr>
+<p>按照功能的不同：</p>
+<h4 id="栈内存：提供了一个供JS代码执行的环境：全局作用域，私有作用域"><a href="#栈内存：提供了一个供JS代码执行的环境：全局作用域，私有作用域" class="headerlink" title="栈内存：提供了一个供JS代码执行的环境：全局作用域，私有作用域"></a>栈内存：<code>提供了一个供JS代码执行的环境：全局作用域，私有作用域</code></h4><h4 id="堆内存：存储引用数据类型的值；-对象数据类型：存属性和属性值；"><a href="#堆内存：存储引用数据类型的值；-对象数据类型：存属性和属性值；" class="headerlink" title="堆内存：存储引用数据类型的值； 对象数据类型：存属性和属性值；"></a>堆内存：<code>存储引用数据类型的值； 对象数据类型：存属性和属性值；</code></h4><p>函数数据类型：代码字符串<br><strong>参数是传地址还是传值？？？？？？？？？？？？？？？？？？？</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]; <span class="comment">//xxff00</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//形参a=地址；</span></span><br><span class="line">    <span class="keyword">var</span> b = a;</span><br><span class="line">    a[<span class="number">0</span>] = <span class="number">6</span>; <span class="comment">//这里改地址里的值；[6,2,3,4]</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> a); <span class="comment">//6,2,3,4</span></span><br><span class="line">    a = <span class="number">2</span>; <span class="comment">//形参=2；形参a=2;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);</span><br><span class="line">&#125;</span><br><span class="line">fn(a);</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">//6,2,3,4</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">a</span>)</span>&#123;<span class="comment">//形参a=地址；arguments[0]=地址</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>[<span class="number">0</span>])</span><br><span class="line">    <span class="built_in">arguments</span>[<span class="number">0</span>]=<span class="number">2</span>; <span class="comment">//形参a=2; arguments[0]=2；</span></span><br><span class="line">    alert(a);<span class="comment">//2 2</span></span><br><span class="line">    a=<span class="number">4</span>;<span class="comment">//形参a=4;</span></span><br><span class="line">&#125;</span><br><span class="line">fn(a);<span class="comment">//传 地址 [1,2,3,4]</span></span><br><span class="line">alert(a);<span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><hr>
+<h4 id="为什么要使用闭包："><a href="#为什么要使用闭包：" class="headerlink" title="为什么要使用闭包："></a>为什么要使用闭包：</h4><ul>
+<li>防止变量名冲突   </li>
+<li><p>可以通过传参的方式，对全局变量的在私有作用域里重新赋值  </p>
+  <figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var <span class="keyword">name</span>=<span class="string">'张三'</span>;</span><br><span class="line">var age=<span class="string">'28'</span>;</span><br><span class="line">(function (<span class="keyword">name</span>,age)&#123;</span><br><span class="line">    <span class="keyword">name</span>=<span class="string">'李四'</span>;</span><br><span class="line">    age=<span class="string">'18'</span>;</span><br><span class="line">    window.<span class="keyword">name</span>=<span class="keyword">name</span>;</span><br><span class="line">    window.age=age;</span><br><span class="line">    alert(<span class="keyword">name</span>+<span class="string">','</span>+age);</span><br><span class="line">&#125;)(<span class="keyword">name</span>,age);</span><br><span class="line">alert(<span class="keyword">name</span>+<span class="string">','</span>+age);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>闭包里面的值，如果想修改全局的值，window.xx=xx  </p>
+</li>
+<li><p>闭包可以用来封装方法，最后通过window.方法名=方法名；把封装好的函数，让外面可以用到  </p>
+  <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">function</span>()&#123;</span><br><span class="line">    function getPrev(<span class="name">oEle</span>)&#123;</span><br><span class="line">        if(<span class="name">oEle.previousElementSibling</span>)&#123;</span><br><span class="line">            return oEle.previousElementSibling;</span><br><span class="line">        &#125;</span><br><span class="line">        var prev=oEle.previousSibling;</span><br><span class="line">        while(<span class="name">prev</span> &amp;&amp; prev.nodeType!=1)&#123;</span><br><span class="line">            prev=prev.previousSibling;</span><br><span class="line">        &#125;</span><br><span class="line">        return prev;</span><br><span class="line">    &#125;</span><br><span class="line">    window.prev=getPrev;</span><br><span class="line">&#125;)()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><hr>
+<ul>
+<li><strong>自执行函数里的this，永远都是window</strong>  </li>
+<li><strong>如果一个元素通过一个行为来触发一个方法，方法中的this就是当前           这个元素</strong>  </li>
+<li><p><strong>函数调用的时候，看前面是否有’.’，有’.’的话，’.’前面是谁，<br>this就是谁</strong>  </p>
+  <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> <span class="built_in">num</span> = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">var</span> obj = &#123;</span><br><span class="line">    <span class="built_in">num</span>: <span class="number">20</span>,</span><br><span class="line">    fn: (function(<span class="built_in">num</span>) &#123; //执行自执行函数，返回值为一个函数</span><br><span class="line">            // console.<span class="built_in">log</span>(this ==window, this.<span class="built_in">num</span> == <span class="built_in">num</span>)</span><br><span class="line">            this.<span class="built_in">num</span> *= <span class="number">2</span>; //this = window  window.<span class="built_in">num</span> == <span class="number">20</span></span><br><span class="line">            <span class="built_in">num</span> += <span class="number">10</span>; // <span class="built_in">num</span> != window.<span class="built_in">num</span> 被重新赋值 <span class="built_in">num</span> == <span class="number">20</span></span><br><span class="line">            // console.<span class="built_in">log</span>(<span class="built_in">num</span>);</span><br><span class="line">            <span class="built_in">return</span> function() &#123;</span><br><span class="line">                this.<span class="built_in">num</span> *= <span class="number">3</span>; // this.<span class="built_in">num</span> != <span class="built_in">num</span></span><br><span class="line">                <span class="built_in">num</span> += <span class="number">1</span>; // <span class="built_in">num</span>为上级作用域中的<span class="built_in">num</span>，它的值为<span class="number">20</span></span><br><span class="line">                console.<span class="built_in">log</span>(this.<span class="built_in">num</span>, <span class="built_in">num</span>); // this.<span class="built_in">num</span> == ?,<span class="built_in">num</span> == <span class="number">21</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(<span class="built_in">num</span>) //<span class="built_in">num</span> == window.<span class="built_in">num</span></span><br><span class="line">&#125;;</span><br><span class="line">console.<span class="built_in">log</span>(<span class="built_in">num</span>); //<span class="number">20</span></span><br><span class="line"><span class="built_in">var</span> fn = obj.fn;</span><br><span class="line">fn(); // <span class="number">60</span>, <span class="number">21</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="built_in">num</span>); // <span class="number">60</span></span><br><span class="line">obj.fn(); // <span class="number">60</span>, <span class="number">22</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="built_in">num</span>); // <span class="number">60</span></span><br><span class="line">console.<span class="built_in">log</span>(window.<span class="built_in">num</span>, obj.<span class="built_in">num</span>); // <span class="number">60</span>, <span class="number">60</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="内存释放"><a href="#内存释放" class="headerlink" title="内存释放"></a>内存释放</h3><hr>
+<h4 id="1-内存释放：堆内存的释放和栈内存的释放"><a href="#1-内存释放：堆内存的释放和栈内存的释放" class="headerlink" title="1.内存释放：堆内存的释放和栈内存的释放"></a>1.内存释放：堆内存的释放和栈内存的释放</h4><h5 id="1）堆内存的释放：当堆内存被变量占用的时候，无法释放"><a href="#1）堆内存的释放：当堆内存被变量占用的时候，无法释放" class="headerlink" title="1）堆内存的释放：当堆内存被变量占用的时候，无法释放"></a>1）堆内存的释放：<code>当堆内存被变量占用的时候，无法释放</code></h5><p>-解决办法：变量=null；当变量指针为空的时候，浏览器会在空闲时把被释放的堆内存收回，这种机制-垃圾回收机制  </p>
+<h5 id="2）栈内存释放"><a href="#2）栈内存释放" class="headerlink" title="2）栈内存释放"></a>2）栈内存释放</h5><h6 id="全局作用域：-1"><a href="#全局作用域：-1" class="headerlink" title="全局作用域："></a>全局作用域：</h6><p>在浏览器其加载完整个页面时，形成一个供全局使用的环境-全局作用域，只有关闭浏览器，才能彻底释放；如果不关闭浏览器，这个全局环境中的变量和方法都无法释放  </p>
+<h6 id="私有作用域：-1"><a href="#私有作用域：-1" class="headerlink" title="私有作用域："></a>私有作用域：</h6><p>当函数执行完成时，私有作用域一般情况下会自动销毁  </p>
+<h4 id="2-私有作用域不销毁情况"><a href="#2-私有作用域不销毁情况" class="headerlink" title="2.私有作用域不销毁情况"></a>2.私有作用域不销毁情况</h4><p>1）不销毁：当函数执行完成时，如果函数里面的东西被外面的变量或者其他东西占用，就无法销毁<br>2）不立即销毁  </p>
+<h3 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h3><hr>
+<p>1.预解释毫无节操-自执行函数  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">f=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">true</span>&#125;;</span><br><span class="line">g=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">false</span>&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(g()&amp;&amp;[]==![])&#123;</span><br><span class="line">        f=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">alert(f());</span><br><span class="line">alert(g());</span><br></pre></td></tr></table></figure>
+<p>2.自执行函数的预解释  </p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> <span class="title">f</span>()&#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title">f</span>()&#123; <span class="keyword">return</span> <span class="type">1</span>; &#125;</span><br><span class="line">    alert (f());</span><br><span class="line">    <span class="keyword">function</span> <span class="title">f</span>()&#123; <span class="keyword">return</span> <span class="type">2</span>; &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>3.作用域链  </p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="number">12</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a);</span><br><span class="line">    a=15;</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">show</span><span class="params">()</span>;</span></span><br><span class="line">alert(a);</span><br></pre></td></tr></table></figure>
+<p>4.预解释：变量声明早于代码运行  </p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="number">12</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a);</span><br><span class="line">    var a=15;</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">show</span><span class="params">()</span>;</span></span><br><span class="line">alert(a);</span><br></pre></td></tr></table></figure>
+<p>5.预解释：变量声明早于代码运行  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> uname = <span class="string">'jack'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    alert(uname)</span><br><span class="line">    <span class="keyword">var</span> uname = <span class="string">'张三'</span></span><br><span class="line">    alert(uname)</span><br><span class="line">&#125;</span><br><span class="line">change();</span><br></pre></td></tr></table></figure>
+<p>6.在没有形参的情况下：函数声明早于变量声明  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    alert(<span class="keyword">typeof</span> fn) <span class="comment">// function</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        alert(<span class="string">'hello'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> fn</span><br><span class="line">&#125;</span><br><span class="line">change();</span><br></pre></td></tr></table></figure>
+<p>7.带var和不带var的区别  </p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">abc</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    a=12;</span><br><span class="line">    alert(a);</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">function</span> <span class="title">b</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a)</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">abc</span><span class="params">()</span>;</span></span><br><span class="line">b();</span><br></pre></td></tr></table></figure>
+<h3 id="面试题-2"><a href="#面试题-2" class="headerlink" title="面试题 2"></a>面试题 2</h3><p>1.关于内存释放的面试题  </p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="keyword">fn</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="title">var</span> i = <span class="number">10</span></span>;</span><br><span class="line">    <span class="keyword">return</span> function(n) &#123;</span><br><span class="line">        console.<span class="built_in">log</span>(n + (++i));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var f = <span class="function"><span class="keyword">fn</span><span class="params">()</span></span>;</span><br><span class="line">f(<span class="number">15</span>);</span><br><span class="line">f(<span class="number">20</span>);</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">15</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">20</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">30</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>2.综合面试题 <code>考察：this指向</code>  </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">num</span> = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="built_in">num</span>: <span class="number">20</span>,</span><br><span class="line">    fn: (function(<span class="built_in">num</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="built_in">num</span> *= <span class="number">2</span>;</span><br><span class="line">        <span class="built_in">num</span> += <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">return</span> function() &#123;</span><br><span class="line">            <span class="keyword">this</span>.<span class="built_in">num</span> *= <span class="number">3</span>;</span><br><span class="line">            <span class="built_in">num</span> += <span class="number">1</span>;</span><br><span class="line">            console.log(<span class="built_in">num</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)(<span class="built_in">num</span>)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> fn = obj.fn;</span><br><span class="line">fn();</span><br><span class="line">obj.fn();</span><br><span class="line">console.log(<span class="built_in">window</span>.<span class="built_in">num</span>, obj.<span class="built_in">num</span>);</span><br></pre></td></tr></table></figure>
+<p>3.关于this和||的运用  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'张三'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">500</span>;</span><br><span class="line">name = (<span class="function"><span class="keyword">function</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">arguments</span>[<span class="number">0</span>] = <span class="string">'李四'</span>;</span><br><span class="line">    age = age || <span class="keyword">this</span>.age;</span><br><span class="line">    <span class="built_in">console</span>.log(name, age);</span><br><span class="line">&#125;)(name);</span><br><span class="line"><span class="built_in">console</span>.log(name, age);</span><br></pre></td></tr></table></figure>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/01/dragFrame/" data-tooltip="原生JavaScript面向对象拖拽框架">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 safilo. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/01/dragFrame/" data-tooltip="原生JavaScript面向对象拖拽框架">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/note-1st/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">safilo</h4>
+        
+            <h5 id="about-card-bio"><p>不纠结过去，不忧虑未来</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Front-end Engineer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://wlqing.com/2016/07/12/note-1st/';
+                 
+                    this.page.identifier = '2016/07/12/note-1st/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'safilo';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','1uwESJfyv9soeHXJxhM8','2.0.0');
+    </script>
+
+
+</html>
