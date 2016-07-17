@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Safilo&#39;s Blog">
+    <title>JavaScript面向对象的程序设计 - Safilo&#39;s Blog</title>
+    <meta name="author" content="safilo">
+    
+        <meta name="keywords" content="wlqing,wlqing.com,odaobui,hexo,javascript,">
+    
+    
+        <link rel="icon" href="http://wlqing.com/assets/images/favicon.ico">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="关于JavaScript面向对象的单例模式、工厂模式、构造函数、原型链模式、原型继承">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JavaScript面向对象的程序设计">
+<meta property="og:url" content="http://wlqing.com/2016/07/12/oop/index.html">
+<meta property="og:site_name" content="Safilo's Blog">
+<meta property="og:description" content="关于JavaScript面向对象的单例模式、工厂模式、构造函数、原型链模式、原型继承">
+<meta property="og:updated_time" content="2016-07-17T17:10:32.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript面向对象的程序设计">
+<meta name="twitter:description" content="关于JavaScript面向对象的单例模式、工厂模式、构造函数、原型链模式、原型继承">
+<meta name="twitter:creator" content="@odaobui">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://wlqing.com/assets/images/author.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Safilo&#39;s Blog</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon "
+                href="/all-archives">
+        
+        
+            <i class="fa fa-lg fa-file-text-o"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/author.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">safilo</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button" title=首页>
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=分类>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=标签>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=归档>
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=搜索>
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=关于>
+                
+                    <a  class="sidebar-button-link "
+                         href="/about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=demo>
+                
+                    <a  class="sidebar-button-link "
+                         href="/demos"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-th-large"></i>
+                    <span class="sidebar-button-desc">demo</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=GitHub>
+                
+                    <a  class="sidebar-button-link " href="https://github.com/safilo" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button" title=RSS>
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            JavaScript面向对象的程序设计
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Jul 12 2016 00:00:00 GMT+0800">
+	
+		    7月 12, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>关于JavaScript面向对象的单例模式、工厂模式、构造函数、原型链模式、原型继承</p>
+<a id="more"></a>  
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>把描述同一个事务（对象）的属性和方法放在一个内存空间下，这样不同事物之间的属性即使属性名相同，相互之间也不会冲突，这样起到了分组的作用。这种分组编写代码的模式就叫作单例模式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj1 = &#123;</span><br><span class="line">    name : <span class="string">"safilo"</span>,</span><br><span class="line">    fn : <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj2 = &#123;</span><br><span class="line">    name : <span class="string">"wlqing"</span>,</span><br><span class="line">    fn : <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>);&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj1.fn == obj2.fn); <span class="comment">//false</span></span><br></pre></td></tr></table></figure></p>
+<p>单例模式是项目开发中经常使用的模式。利用单例模式可以进行<strong>模块化开发</strong>：对于一个相对比较大的项目，需要多人协作同时开发，我们一般情况下会根据当前项目的需求划分成几个功能版块，每个开发成员负责一部分，最后再把每个人的代码进行合并。  </p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 工具包</span></span><br><span class="line"><span class="keyword">var</span> utils = &#123;</span><br><span class="line">    fn : <span class="function"><span class="keyword">function</span> <span class="title">fn</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 日历模块</span></span><br><span class="line"><span class="keyword">var</span> calendarRender = &#123;</span><br><span class="line">    fn : <span class="function"><span class="keyword">function</span> <span class="title">fn</span> <span class="params">()</span> </span>&#123;&#125;,</span><br><span class="line">    fn2 : <span class="function"><span class="keyword">function</span> <span class="title">fn2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        utils.fn(); <span class="comment">// 调用工具包的方法</span></span><br><span class="line">        <span class="keyword">this</span>.fn(); <span class="comment">// 调用自己的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 搜索模块</span></span><br><span class="line"><span class="keyword">var</span> searchRender = &#123;</span><br><span class="line">    fn :<span class="function"><span class="keyword">function</span> <span class="title">fn</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>单例模式虽然解决了分组的问题，但是它属于“手工作业”，不能实现批量生产，因此引出了工厂模式。  </p>
+<p>工厂模式：通过函数把实现相同功能的属性和方法封装起来，当需要实现这些功能时，只需执行函数即可返回拥有这些属性和方法的对象，不用手动的再写同样的代码。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, age)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">    obj.name = name;</span><br><span class="line">    obj.age = age;</span><br><span class="line">    obj.eat = <span class="function"><span class="keyword">function</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person1 = createPerson(<span class="string">"张三"</span>,<span class="number">25</span>);</span><br></pre></td></tr></table></figure></p>
+<p>工厂模式的优点：通过函数的封装，实现了低耦合高内聚-&gt;减少冗余代码，提高复用率。  </p>
+<hr>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>通过构造函数可以创建一个自定义类，并且创建这个类的一个实例。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CreatePerson</span><span class="params">(name. age)</span> </span>&#123;</span><br><span class="line">    name : name,</span><br><span class="line">    age : age,</span><br><span class="line">    eat : <span class="function"><span class="keyword">function</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> CreatePerson(<span class="string">"张三"</span>, <span class="number">25</span>);</span><br></pre></td></tr></table></figure></p>
+<h5 id="构造函数和工厂模式的区别"><a href="#构造函数和工厂模式的区别" class="headerlink" title="构造函数和工厂模式的区别"></a>构造函数和工厂模式的区别</h5><p>1.调用的时候  </p>
+<p>工厂模式：和普通函数的调用一样 <code>var person = createPerson(name,age);</code>  </p>
+<p>构造函数：通过new执行后，CreatePerson此时是一个类，返回当前类的一个实例 <code>var person = new CreatePerson(name, age);</code>  </p>
+<p>2.执行函数时  </p>
+<p>相同：</p>
+<p>工厂模式和构造函数在执行时和普通函数一样：创建执行环境 -&gt; 形参赋值 -&gt; 预解释 -&gt; 代码从上到下依次执行。这也说明了类也有普通函数的一面。  </p>
+<p>不同：</p>
+<p>1.构造函数在预解释后，<strong>浏览器会默认创建一个对象数据类型的值，这个对象就是当前类的一个实例</strong>，因此不需要像工厂模式那样需要手动创建。  </p>
+<p>2，然后代码从上到下依次执行，<strong>以当前的实例为执行的主体</strong>，此时构造函数中的<strong>this指向当前实例</strong>，接着会把函数中的属性名和属性值赋值给当前实例。  </p>
+<p>3.最后<strong>浏览器会默认的把创建的实例返回</strong>，而工厂模式是需要手动返回创建的对象的。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CreatePerson</span><span class="params">(naem, age)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//预解释完成后，浏览器会默认创建一个对象作为当前实例</span></span><br><span class="line">    <span class="comment">//以当前实例为执行主体，this指向的就是当前实例</span></span><br><span class="line">    <span class="comment">//把函数中的属性名和属性值赋值给当前实例</span></span><br><span class="line">    name : name,</span><br><span class="line">    age : age,</span><br><span class="line">    eat : <span class="function"><span class="keyword">function</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="comment">//最后浏览器会默认的把创建的实例返回</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> CreatePerson(<span class="string">"张三"</span>, <span class="number">25</span>);</span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/12/note-1st/"  data-tooltip="JS中的预解释、作用域及this">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/01/dragFrame/" data-tooltip="原生JavaScript面向对象拖拽框架">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 safilo. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/12/note-1st/"  data-tooltip="JS中的预解释、作用域及this">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/01/dragFrame/" data-tooltip="原生JavaScript面向对象拖拽框架">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://wlqing.com/2016/07/12/oop/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/author.jpg"/>
+        
+            <h4 id="about-card-name">safilo</h4>
+        
+            <h5 id="about-card-bio"><p>不纠结过去，不忧虑未来</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Front-end Engineer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://wlqing.com/2016/07/12/oop/';
+                 
+                    this.page.identifier = '2016/07/12/oop/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'safilo';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','1uwESJfyv9soeHXJxhM8','2.0.0');
+    </script>
+
+
+</html>
