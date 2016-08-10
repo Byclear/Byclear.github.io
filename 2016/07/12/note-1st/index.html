@@ -23,7 +23,7 @@
 <meta property="og:url" content="http://wlqing.com/2016/07/12/note-1st/index.html">
 <meta property="og:site_name" content="Safilo's Blog">
 <meta property="og:description" content="关于JS中的预解释、作用域及this">
-<meta property="og:updated_time" content="2016-07-25T21:28:25.987Z">
+<meta property="og:updated_time" content="2016-08-10T03:15:07.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中的预解释、作用域及this">
 <meta name="twitter:description" content="关于JS中的预解释、作用域及this">
@@ -50,7 +50,7 @@
             <!-- Define author's picture -->
 
 
-<header id="header" data-behavior="4">
+<header id="header" data-behavior="3">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <h1 class="header-title">
         <a class="header-title-link" href="/ ">Safilo&#39;s Blog</a>
@@ -74,7 +74,7 @@
         
     
 
-<nav id="sidebar" data-behavior="4">
+<nav id="sidebar" data-behavior="3">
     
         <div class="sidebar-profile">
             <a href="/#about">
@@ -196,7 +196,7 @@
 </nav>
 
             
-            <div id="main" data-behavior="4"
+            <div id="main" data-behavior="3"
                  class="
                         hasCoverMetaIn
                         ">
@@ -293,27 +293,6 @@
 <h6 id="私有作用域的内存释放"><a href="#私有作用域的内存释放" class="headerlink" title="私有作用域的内存释放"></a>私有作用域的内存释放</h6><p>当函数执行完成时，私有作用域一般情况下会自动销毁  </p>
 <h5 id="私有作用域不销毁情况"><a href="#私有作用域不销毁情况" class="headerlink" title="私有作用域不销毁情况"></a>私有作用域不销毁情况</h5><h6 id="不销毁"><a href="#不销毁" class="headerlink" title="不销毁"></a>不销毁</h6><p>当函数执行完成时，如果函数里面的东西被外面的变量或者其他东西占用，就无法销毁  </p>
 <h6 id="不立即销毁"><a href="#不立即销毁" class="headerlink" title="不立即销毁"></a>不立即销毁</h6><p>A函数执行的返回值是一个B函数并且让B立马执行，此时A不会立即销毁，而是等B执行完B的执行环境销毁后A才销毁</p>
-<hr>
-<h3 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h3><p>1.预解释毫无节操-自执行函数  </p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">f=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">true</span>&#125;;</span><br><span class="line">g=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">false</span>&#125;;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(g()&amp;&amp;[]==![])&#123;</span><br><span class="line">        f=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="literal">true</span>;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">alert(f());</span><br><span class="line">alert(g());</span><br></pre></td></tr></table></figure>
-<p>2.自执行函数的预解释  </p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> <span class="title">f</span>()&#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title">f</span>()&#123; <span class="keyword">return</span> <span class="type">1</span>; &#125;</span><br><span class="line">    alert (f());</span><br><span class="line">    <span class="keyword">function</span> <span class="title">f</span>()&#123; <span class="keyword">return</span> <span class="type">2</span>; &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<p>3.作用域链  </p>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="number">12</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a);</span><br><span class="line">    a=15;</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">show</span><span class="params">()</span>;</span></span><br><span class="line">alert(a);</span><br></pre></td></tr></table></figure>
-<p>4.预解释：变量声明早于代码运行  </p>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="number">12</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a);</span><br><span class="line">    var a=15;</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">show</span><span class="params">()</span>;</span></span><br><span class="line">alert(a);</span><br></pre></td></tr></table></figure>
-<p>5.预解释：变量声明早于代码运行  </p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> uname = <span class="string">'jack'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    alert(uname)</span><br><span class="line">    <span class="keyword">var</span> uname = <span class="string">'张三'</span></span><br><span class="line">    alert(uname)</span><br><span class="line">&#125;</span><br><span class="line">change();</span><br></pre></td></tr></table></figure>
-<p>6.在没有形参的情况下：函数声明早于变量声明  </p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    alert(<span class="keyword">typeof</span> fn) <span class="comment">// function</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        alert(<span class="string">'hello'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> fn</span><br><span class="line">&#125;</span><br><span class="line">change();</span><br></pre></td></tr></table></figure>
-<p>7.带var和不带var的区别  </p>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">abc</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    a=12;</span><br><span class="line">    alert(a);</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">function</span> <span class="title">b</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    alert(a)</span><br><span class="line">&#125;</span></span><br><span class="line"><span class="title">abc</span><span class="params">()</span>;</span></span><br><span class="line">b();</span><br></pre></td></tr></table></figure>
-<h3 id="面试题-2"><a href="#面试题-2" class="headerlink" title="面试题 2"></a>面试题 2</h3><p>1.关于内存释放的面试题  </p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="keyword">fn</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="title">var</span> i = <span class="number">10</span></span>;</span><br><span class="line">    <span class="keyword">return</span> function(n) &#123;</span><br><span class="line">        console.<span class="built_in">log</span>(n + (++i));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var f = <span class="function"><span class="keyword">fn</span><span class="params">()</span></span>;</span><br><span class="line">f(<span class="number">15</span>);</span><br><span class="line">f(<span class="number">20</span>);</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">15</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">20</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">fn</span><span class="params">()</span><span class="params">(<span class="number">30</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>2.综合面试题 <code>考察：this指向</code>  </p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">num</span> = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="built_in">num</span>: <span class="number">20</span>,</span><br><span class="line">    fn: (function(<span class="built_in">num</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="built_in">num</span> *= <span class="number">2</span>;</span><br><span class="line">        <span class="built_in">num</span> += <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">return</span> function() &#123;</span><br><span class="line">            <span class="keyword">this</span>.<span class="built_in">num</span> *= <span class="number">3</span>;</span><br><span class="line">            <span class="built_in">num</span> += <span class="number">1</span>;</span><br><span class="line">            console.log(<span class="built_in">num</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)(<span class="built_in">num</span>)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> fn = obj.fn;</span><br><span class="line">fn();</span><br><span class="line">obj.fn();</span><br><span class="line">console.log(<span class="built_in">window</span>.<span class="built_in">num</span>, obj.<span class="built_in">num</span>);</span><br></pre></td></tr></table></figure>
-<p>3.关于this和||的运用  </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'张三'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">500</span>;</span><br><span class="line">name = (<span class="function"><span class="keyword">function</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">arguments</span>[<span class="number">0</span>] = <span class="string">'李四'</span>;</span><br><span class="line">    age = age || <span class="keyword">this</span>.age;</span><br><span class="line">    <span class="built_in">console</span>.log(name, age);</span><br><span class="line">&#125;)(name);</span><br><span class="line"><span class="built_in">console</span>.log(name, age);</span><br></pre></td></tr></table></figure>
 
             
         </div>
@@ -399,7 +378,7 @@
 
             </div>
             
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
                     <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
@@ -461,7 +440,7 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
             <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://wlqing.com/2016/07/12/note-1st/">
